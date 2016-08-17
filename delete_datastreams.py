@@ -3,7 +3,7 @@ import urllib
 import xmltodict
 import json
 
-credentials = yaml.load(open('credentials.yaml', 'r'))
+credentials = yaml.load(open('configuration.yaml', 'r'))
 collection = "pid%7E{0}%2A".format(credentials['collection_namespace'])
 data_stream = credentials['datastream']
 find_objects_string = credentials['fedoraurl'] + ":8080/fedora/objects?query=" + collection \
