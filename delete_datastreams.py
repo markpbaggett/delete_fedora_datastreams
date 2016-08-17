@@ -3,11 +3,11 @@ import urllib
 import xmltodict
 import json
 
-credentials = yaml.load(open('configuration.yaml', 'r'))
+credentials = yaml.load(open('default_configuration.yaml', 'r'))
 collection = "pid%7E{0}%2A".format(credentials['collection_namespace'])
 data_stream = credentials['datastream']
 find_objects_string = credentials['fedoraurl'] + ":8080/fedora/objects?query=" + collection \
-                      + "&pid=true&resultFormat=xml&maxResults=2"
+                      + "&pid=true&resultFormat=xml"
 collection_objects = []
 initial_token = ''
 
@@ -28,9 +28,13 @@ def get_collection_objects(url, token, pids):
     return pids
 
 
-def purge_a_dsid():
-    return
+def purge_a_dsid(pids, url):
+    deleted_pids = []
+    for pid in pids:
+        x = requests.delete(url, auth=(credentials['username'], credentials['password']))
+        if x.status_code == 200:
+            deleted_pids.append(pid)
+    return deleted_pids
 
 if __name__ == "__main__":
     pids_in_collection = get_collection_objects(find_objects_string, initial_token, collection_objects)
-    print(pids_in_collection)

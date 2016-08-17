@@ -6,9 +6,9 @@ Example code to purge old versions of Fedora datastreams.
 
 **In progress**
 
-## Configuration file
+## Step 1: Create Configuration file
 
-Before using, update your configuration file:
+Before using, make a copy of **default_configuration.yaml** and save as **configuration.yaml**.  Complete the following information:
 
 * fedoraurl: Base url of your fedora instance
 * username: Your fedora username
