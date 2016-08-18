@@ -3,3 +3,5 @@ username: "FEDORAUSERNAME"
 password: "FEDORAPASSWORD"
 collection_namespace: "PARENTNAMESPACEOFCOLLECTION"
 datastream: "DATASTREAM"
+start: "yyyy-MM-dd"
+end: "yyyy-MM-dd"atdd
