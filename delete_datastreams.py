@@ -37,12 +37,25 @@ def purge_a_dsid(pids):
         url = purge_url + pid + '/datastreams/{0}/?&startDT={1}&endDT={2}&logMessage'.format(credentials['datastream'], credentials['start'], credentials['end'])
         x = requests.delete(url, auth=(credentials['username'], credentials['password']))
         if x.status_code == 200:
-            deleted_pids.append(pid)
+            if len(repr(x.text)) > 4:
+                deleted_pids.append(pid)
         else:
             print("{0} had a status code of: {1}".format(pid, x.status_code))
     return deleted_pids
+
+def build_markdown_file(array_of_pids):
+    markdown_file = open('deleted_pids.md', 'w')
+    markdown_file.write('# Deleted PIDS:\nVersions of the {0} datastream were deleted'
+                        ' for the following PIDS:\n\n'.format(credentials['datastream']))
+    for pid in array_of_pids:
+        markdown_file.write('1. {0}\n'.format(pid))
+    markdown_file.close()
+    print("\n\tDeleted datastream versions for {0} pids.\n\t"
+          "See deleted_pids.md for more details.\n".format(len(array_of_pids)))
 
 
 if __name__ == "__main__":
     pids_in_collection = get_collection_objects(find_objects_string, initial_token, collection_objects)
     deleted_objects = purge_a_dsid(pids_in_collection)
+    build_markdown_file(deleted_objects)
+
