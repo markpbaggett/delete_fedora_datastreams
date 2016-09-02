@@ -38,7 +38,7 @@ def purge_a_dsid(pids):
         x = requests.delete(url, auth=(credentials['username'], credentials['password']))
         if x.status_code == 200:
             if len(repr(x.text)) > 4:
-                deleted_pids.append(pid)
+                deleted_pids.append("{0}:  {1}".format(pid, repr(x.text)))
         else:
             print("{0} had a status code of: {1}".format(pid, x.status_code))
     return deleted_pids
