@@ -33,12 +33,13 @@ def purge_a_dsid(pids):
     purge_url = credentials['fedoraurl'] + ":8080/fedora/objects/"
     deleted_pids = []
     for pid in pids:
-        lastVersionDate = getLastVersionDate(pid)
-        if lastVersionDate:
-            number_of_versions = len(lastVersionDate) - 1
-            end = lastVersionDate[1]
-            start = lastVersionDate[number_of_versions]
-            url = '{0}{1}/datastreams/{2}/?&startDT={3}&endDT={4}&logMessage'.format(purge_url, pid, credentials['datastream'], start, end)
+        last_version_date = get_last_version_date(pid)
+        if last_version_date:
+            number_of_versions = len(last_version_date) - 1
+            end = last_version_date[1]
+            start = last_version_date[number_of_versions]
+            url = '{0}{1}/datastreams/{2}/?&startDT={3}&endDT={4}' \
+                  '&logMessage'.format(purge_url, pid, credentials['datastream'], start, end)
             x = requests.delete(url, auth=(credentials['username'], credentials['password']))
             if x.status_code == 200:
                 if len(repr(x.text)) > 4:
@@ -59,8 +60,9 @@ def build_markdown_file(array_of_pids):
           "See deleted_pids.md for more details.\n".format(len(array_of_pids)))
 
 
-def getLastVersionDate(object):
-    url = '{0}:8080/fedora/objects/{1}/datastreams/{2}/history?format=xml'.format(credentials['fedoraurl'], object, credentials['datastream'])
+def get_last_version_date(fedora_object):
+    url = '{0}:8080/fedora/objects/{1}/datastreams/' \
+          '{2}/history?format=xml'.format(credentials['fedoraurl'], fedora_object, credentials['datastream'])
     s = requests.get(url, auth=(credentials['username'], credentials['password']))
     if s.status_code == 200:
         x = s.text
