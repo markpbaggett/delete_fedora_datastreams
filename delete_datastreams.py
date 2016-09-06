@@ -72,6 +72,7 @@ def get_last_version_date(fedora_object):
         for objects in data['datastreamHistory']['datastreamProfile']:
             if type(objects) == dict:
                 versions.append(objects['dsCreateDate'])
+        versions.sort(reverse=True)
         return versions
 
 
