@@ -6,7 +6,6 @@ import requests
 
 credentials = yaml.load(open('configuration.yaml', 'r'))
 collection = "pid%7E{0}%2A".format(credentials['collection_namespace'])
-data_stream = credentials['datastream']
 find_objects_string = credentials['fedoraurl'] + ":8080/fedora/objects?query=" + collection \
                       + "&pid=true&resultFormat=xml"
 collection_objects = []
@@ -38,10 +37,7 @@ def purge_a_dsid(pids):
         if lastVersionDate:
             number_of_versions = len(lastVersionDate) - 1
             end = lastVersionDate[1]
-            if len(lastVersionDate) == 2:
-                start = lastVersionDate[1]
-            else:
-                start = lastVersionDate[number_of_versions]
+            start = lastVersionDate[number_of_versions]
             url = '{0}{1}/datastreams/{2}/?&startDT={3}&endDT={4}&logMessage'.format(purge_url, pid, credentials['datastream'], start, end)
             x = requests.delete(url, auth=(credentials['username'], credentials['password']))
             if x.status_code == 200:
