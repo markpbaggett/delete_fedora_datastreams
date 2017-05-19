@@ -1,7 +1,10 @@
 fedoraurl: "http://PATHTOYOURFEDORA"
 username: "FEDORAUSERNAME"
 password: "FEDORAPASSWORD"
+# Note:  if dc:relation is populated with a string, the search will be based on it rather than collection_namespace
 collection_namespace: "PARENTNAMESPACEOFCOLLECTION"
 datastream: "DATASTREAM"
 start: "yyyy-MM-dd"
-end: "yyyy-MM-dd"atdd
+end: "yyyy-MM-dd"
+# Note:  if dc:relation is populated with a string, the search will be based on it rather than collection_namespace
+dcrelation: ""

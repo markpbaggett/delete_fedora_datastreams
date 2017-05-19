@@ -6,8 +6,12 @@ import requests
 
 credentials = yaml.load(open('configuration.yaml', 'r'))
 collection = "pid%7E{0}%2A".format(credentials['collection_namespace'])
-find_objects_string = credentials['fedoraurl'] + ":8080/fedora/objects?query=" + collection \
-                      + "&pid=true&resultFormat=xml"
+if credentials['dcrelation'] != "":
+    find_objects_string = "{0}:8080/fedora/objects?query=relation%7E%27{1}%27&pid=true&resultFormat=xml".\
+        format(credentials['fedoraurl'],credentials['dcrelation']).replace(' ', '%20')
+else:
+    find_objects_string = credentials['fedoraurl'] + ":8080/fedora/objects?query=" + collection \
+                          + "&pid=true&resultFormat=xml"
 collection_objects = []
 initial_token = ''
 
