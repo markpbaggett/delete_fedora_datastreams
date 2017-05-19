@@ -21,8 +21,11 @@ def get_collection_objects(url, token, pids):
     if 'listSession' in data['result']:
         new_token = data['result']['listSession']['token']
     object_lists = data['result']['resultList']['objectFields']
-    for item in object_lists:
-        pids.append(item['pid'])
+    if isinstance(object_lists, list):
+        for item in object_lists:
+            pids.append(item['pid'])
+    else:
+        pids.append(object_lists['pid'])
     if new_token:
         token = '&sessionToken={0}'.format(new_token)
         get_collection_objects(url, token, pids)
